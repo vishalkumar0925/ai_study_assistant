@@ -1,0 +1,54 @@
+DBMS — 2-Page Quick Notes
+ Database Management System | Exam revision notes
+PAGE 1 — BASICS & DATABASE MODELS
+1. What is DBMS?
+A Database Management System (DBMS) is software used to create, store, organize, retrieve, update, and manage data in a
+database. Examples: MySQL, PostgreSQL, Oracle Database, and Microsoft SQL Server.
+2. Advantages of DBMS
+  Reduced redundancy: reduces unnecessary duplicate data.
+  Consistency: keeps data uniform across the database.
+  Security: controls access using users and permissions.
+  Integrity: constraints help maintain data accuracy.
+  Backup & recovery: helps restore data after failures.
+  Data sharing: supports multiple authorized users.
+ 3. Types of Database Models
+  Hierarchical: tree structure with parent–child relationships.
+  Network: records can have multiple connections.
+  Relational: data is stored in tables (rows and columns).
+  Object-oriented: data is represented as objects and classes.
+ 4. Important Terms
+Table: related records; Row/Tuple: one record; Column/Attribute: one property; Schema: database structure; Instance: data
+stored at a particular time.
+5. Keys in DBMS
+  Primary key: uniquely identifies each row and cannot be NULL.
+  Candidate key: minimal attribute set that can uniquely identify rows.
+  Foreign key: references a key in another or the same table.
+  Super key: any attribute set that uniquely identifies a row.
+  Composite key: key made from two or more attributes.
+ 
+PAGE 2 — SQL, NORMALIZATION & TRANSACTIONS
+6. SQL Command Categories
+  DDL: defines structure — CREATE, ALTER, DROP.
+  DML: changes data — INSERT, UPDATE, DELETE.
+  DQL: retrieves data — SELECT.
+  DCL: manages permissions — GRANT, REVOKE.
+  TCL: controls transactions — COMMIT, ROLLBACK, SAVEPOINT.
+ 7. Basic SQL Example
+SELECT name, marks FROM Student WHERE marks >= 60;
+Meaning: display names and marks of students scoring 60 or above.
+8. Normalization
+Normalization organizes tables to reduce duplication and avoid insertion, update, and deletion anomalies.
+  1NF: every cell contains a single atomic value; no repeating groups.
+  2NF: in 1NF, and every non-key attribute depends on the whole candidate key.
+  3NF: in 2NF, with no transitive dependency of non-key attributes on a key.
+ 9. ACID Properties
+  Atomicity: transaction completes fully or not at all.
+  Consistency: transaction preserves database rules.
+  Isolation: concurrent transactions do not interfere improperly.
+  Durability: committed changes persist even after a failure.
+ 10. DBMS vs RDBMS
+
+DBMS is the general system for managing databases. RDBMS is a type of DBMS based on related tables, keys, and relational rules.
+Examples: MySQL, PostgreSQL, Oracle.
+Quick revision tip: Focus on key definitions, SQL categories, 1NF–3NF, and ACID properties for exam revision.
+
