@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 # 🔑 Yahan apni AIzaSy... wali asli API key paste karein
-MY_API_KEY = "AQ.Ab8RN6LAbwaTirT53bpJJ4BEoe5-G9MwvH8hykpFDzKohn5Y8A"
+MY_API_KEY = "GEMINI_API_KEY", "YOUR_GEMINI_API_KEY"
 # Client initialization
 client = genai.Client(api_key=MY_API_KEY)
 
