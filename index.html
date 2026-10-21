@@ -1,809 +1,402 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>AI Study Assistant - Vishal Kumar</title>
-
     <!-- Google Fonts & FontAwesome -->
-
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <!-- Marked.js for Markdown Rendering -->
-
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-
-
     <style>
-
         :root {
-
             --bg-base: #090d16;
-
             --glass-bg: rgba(18, 24, 38, 0.75);
-
             --glass-border: rgba(255, 255, 255, 0.08);
-
             --accent-primary: #6366f1;
-
             --accent-secondary: #a855f7;
-
             --accent-glow: rgba(99, 102, 241, 0.35);
-
             --text-main: #f8fafc;
-
             --text-muted: #94a3b8;
-
             --success-color: #10b981;
-
         }
-
-
 
         * {
-
             box-sizing: border-box;
-
             margin: 0;
-
             padding: 0;
-
             font-family: 'Plus Jakarta Sans', sans-serif;
-
         }
-
-
 
         body {
-
             background-color: var(--bg-base);
-
-            background-image:
-
+            background-image: 
                 radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-
                 radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.12) 0%, transparent 40%);
-
             min-height: 100vh;
-
             color: var(--text-main);
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             padding: 30px 15px;
-
         }
-
-
 
         .app-container {
-
             width: 100%;
-
             max-width: 920px;
-
             background: var(--glass-bg);
-
             backdrop-filter: blur(25px);
-
             -webkit-backdrop-filter: blur(25px);
-
             border: 1px solid var(--glass-border);
-
             border-radius: 28px;
-
             padding: 45px;
-
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px var(--accent-glow);
-
         }
-
-
-
-        /* Top Creator Bar */
 
         .creator-bar {
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             margin-bottom: 25px;
-
             padding-bottom: 15px;
-
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-
         }
-
-
 
         .creator-badge {
-
             display: inline-flex;
-
             align-items: center;
-
             gap: 8px;
-
             background: rgba(168, 85, 247, 0.1);
-
             border: 1px solid rgba(168, 85, 247, 0.3);
-
             padding: 6px 16px;
-
             border-radius: 50px;
-
             font-size: 0.85rem;
-
             font-weight: 700;
-
             color: #c084fc;
-
             letter-spacing: 0.5px;
-
         }
-
-
 
         .ai-tag {
-
             font-size: 0.85rem;
-
             color: var(--text-muted);
-
             background: rgba(255, 255, 255, 0.04);
-
             padding: 5px 12px;
-
             border-radius: 8px;
-
             border: 1px solid var(--glass-border);
-
         }
-
-
 
         .hero-section {
-
             text-align: center;
-
             margin-bottom: 35px;
-
         }
-
-
 
         .hero-section h1 {
-
             font-size: 2.6rem;
-
             font-weight: 800;
-
             background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 70%, #c084fc 100%);
-
             -webkit-background-clip: text;
-
             background-clip: text;
-
             -webkit-text-fill-color: transparent;
-
             margin-bottom: 12px;
-
             letter-spacing: -0.5px;
-
         }
-
-
 
         .hero-section p {
-
             color: var(--text-muted);
-
             font-size: 1.05rem;
-
         }
-
-
 
         .dropzone {
-
             background: rgba(11, 15, 25, 0.6);
-
             border: 2px dashed rgba(99, 102, 241, 0.35);
-
             border-radius: 20px;
-
             padding: 40px 20px;
-
             text-align: center;
-
             transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-
             position: relative;
-
             cursor: pointer;
-
         }
-
-
 
         .dropzone:hover {
-
             border-color: var(--accent-secondary);
-
             background: rgba(15, 23, 42, 0.8);
-
             box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
-
         }
-
-
 
         .dropzone-icon {
-
             font-size: 3.5rem;
-
             background: linear-gradient(135deg, #818cf8, #c084fc);
-
             -webkit-background-clip: text;
-
             background-clip: text;
-
             -webkit-text-fill-color: transparent;
-
             margin-bottom: 15px;
-
         }
-
-
 
         input[type="file"] {
-
             display: none;
-
         }
-
-
 
         .file-upload-btn {
-
             display: inline-block;
-
             padding: 12px 28px;
-
             background: rgba(255, 255, 255, 0.05);
-
             border: 1px solid rgba(255, 255, 255, 0.12);
-
             border-radius: 12px;
-
             color: var(--text-main);
-
             font-weight: 600;
-
             cursor: pointer;
-
             transition: all 0.3s;
-
             margin-top: 10px;
-
         }
-
-
 
         .file-upload-btn:hover {
-
             background: rgba(255, 255, 255, 0.1);
-
             border-color: #818cf8;
-
             color: #a5b4fc;
-
         }
-
-
 
         .file-name-preview {
-
             display: block;
-
             margin-top: 12px;
-
             font-size: 0.9rem;
-
             color: var(--accent-secondary);
-
             font-weight: 500;
-
         }
-
-
 
         .btn-action {
-
             width: 100%;
-
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-
             color: white;
-
             border: none;
-
             padding: 16px;
-
             font-size: 1.1rem;
-
             font-weight: 700;
-
             border-radius: 16px;
-
             cursor: pointer;
-
             margin-top: 25px;
-
             box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
-
             transition: all 0.3s ease;
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             gap: 10px;
-
         }
-
-
 
         .btn-action:hover {
-
             transform: translateY(-2px);
-
             box-shadow: 0 15px 35px rgba(168, 85, 247, 0.5);
-
         }
-
-
 
         .status-indicator {
-
             text-align: center;
-
             margin-top: 25px;
-
             font-weight: 600;
-
             font-size: 1.05rem;
-
             color: #facc15;
-
             display: none;
-
         }
-
-
 
         .result-panel {
-
             margin-top: 35px;
-
             background: rgba(11, 15, 25, 0.85);
-
             border: 1px solid rgba(16, 185, 129, 0.3);
-
             border-radius: 22px;
-
             padding: 35px;
-
             display: none;
-
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-
             animation: slideUp 0.5s ease-out;
-
         }
-
-
 
         .result-panel-header {
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             margin-bottom: 25px;
-
             padding-bottom: 15px;
-
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
         }
-
-
 
         .result-title {
-
             display: flex;
-
             align-items: center;
-
             gap: 12px;
-
             font-size: 1.35rem;
-
             font-weight: 700;
-
             color: var(--success-color);
-
         }
-
-
 
         .btn-tool {
-
             background: rgba(255, 255, 255, 0.06);
-
             border: 1px solid var(--glass-border);
-
             color: var(--text-main);
-
             padding: 8px 16px;
-
             border-radius: 10px;
-
             cursor: pointer;
-
             font-size: 0.85rem;
-
             font-weight: 600;
-
             transition: all 0.2s;
-
             display: flex;
-
             align-items: center;
-
             gap: 6px;
-
         }
-
-
 
         .btn-tool:hover {
-
             background: rgba(255, 255, 255, 0.12);
-
             color: var(--success-color);
-
         }
-
-
-
-        /* Markdown Luxury Output Styling */
 
         .markdown-body {
-
             color: #cbd5e1;
-
             line-height: 1.8;
-
             font-size: 1.05rem;
-
         }
-
-
 
         .markdown-body h1, .markdown-body h2, .markdown-body h3 {
-
             color: #f1f5f9;
-
             margin-top: 25px;
-
             margin-bottom: 12px;
-
             font-weight: 700;
-
         }
-
-
 
         .markdown-body h3 {
-
             color: #c084fc;
-
             font-size: 1.25rem;
-
             border-left: 3px solid var(--accent-secondary);
-
             padding-left: 10px;
-
         }
-
-
 
         .markdown-body ul, .markdown-body ol {
-
             padding-left: 22px;
-
             margin-bottom: 18px;
-
         }
-
-
 
         .markdown-body li {
-
             margin-bottom: 8px;
-
         }
-
-
 
         .markdown-body strong {
-
             color: #38bdf8;
-
         }
-
-
 
         @keyframes slideUp {
-
             from { opacity: 0; transform: translateY(20px); }
-
             to { opacity: 1; transform: translateY(0); }
-
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
     <div class="app-container">
-
-        <!-- Creator Bar with Your Name -->
-
         <div class="creator-bar">
-
             <div class="creator-badge">
-
                 <i class="fa-solid fa-code"></i> Developed by VISHAL KUMAR
-
             </div>
-
             <div class="ai-tag">
-
                 <i class="fa-solid fa-sparkles"></i> Gemini AI Assistant
-
             </div>
-
         </div>
-
-
 
         <div class="hero-section">
-
             <h1>AI Study Assistant</h1>
-
             <p>Upload your academic notes or textbook PDFs to generate crystal-clear, exam-ready summaries.</p>
-
         </div>
-
-
 
         <div class="dropzone" onclick="document.getElementById('pdfFile').click()">
-
             <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
-
             <h3 style="font-weight: 700; margin-bottom: 5px;">Select PDF Document</h3>
-
             <p style="color: var(--text-muted); font-size: 0.9rem;">Click here to browse files from your computer</p>
-
-           
-
+            
             <label for="pdfFile" class="file-upload-btn" onclick="event.stopPropagation()">
-
                 <i class="fa-solid fa-file-pdf"></i> Browse File
-
             </label>
-
             <input type="file" id="pdfFile" accept=".pdf" onchange="displayFileName()">
-
             <span id="fileDisplay" class="file-name-preview">No file selected</span>
-
         </div>
 
-
-
         <button class="btn-action" onclick="uploadAndSummarize()">
-
             <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Elite Summary
-
         </button>
-
-
 
         <div id="statusIndicator" class="status-indicator"></div>
 
-
-
         <div id="resultPanel" class="result-panel">
-
             <div class="result-panel-header">
-
                 <div class="result-title">
-
                     <i class="fa-solid fa-circle-check"></i> Key Concepts & Summary
-
                 </div>
-
                 <button class="btn-tool" onclick="copySummaryText()">
-
                     <i class="fa-regular fa-copy"></i> Copy
-
                 </button>
-
             </div>
-
             <div id="summaryOutput" class="markdown-body"></div>
-
         </div>
-
     </div>
 
-
-
     <script>
-
         function displayFileName() {
-
             const input = document.getElementById('pdfFile');
-
             const display = document.getElementById('fileDisplay');
-
             if (input.files.length > 0) {
-
                 display.innerText = "📄 " + input.files[0].name;
-
             } else {
-
                 display.innerText = "No file selected";
-
             }
-
         }
 
-
-
         async function uploadAndSummarize() {
-
             const fileInput = document.getElementById('pdfFile');
-
             const statusDiv = document.getElementById('statusIndicator');
-
             const resultPanel = document.getElementById('resultPanel');
-
             const summaryOutput = document.getElementById('summaryOutput');
 
-
-
             if (fileInput.files.length === 0) {
-
                 alert('Please select a PDF file first!');
-
                 return;
-
             }
 
-
-
             const formData = new FormData();
-
             formData.append('file', fileInput.files[0]);
 
-
-
             statusDiv.style.display = 'block';
-
             statusDiv.style.color = '#facc15';
-
             statusDiv.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Reading PDF and analyzing notes...';
-
             resultPanel.style.display = 'none';
 
-
-
             try {
-
-                const uploadRes = await fetch('http://127.0.0.1:5000/upload-pdf', {
-
+                const uploadRes = await fetch('/upload-pdf', {
                     method: 'POST',
-
                     body: formData
-
                 });
-
                 const uploadData = await uploadRes.json();
-
-
 
                 if (!uploadRes.ok) throw new Error(uploadData.error || 'Failed to upload PDF');
 
-
-
                 statusDiv.innerHTML = `<i class="fa-solid fa-brain fa-bounce"></i> Processed ${uploadData.total_pages} pages. Generating AI summary...`;
 
-
-
-                const sumRes = await fetch('http://127.0.0.1:5000/summarize-pdf');
-
+                const sumRes = await fetch('/summarize-pdf');
                 const sumData = await sumRes.json();
-
-
 
                 if (!sumRes.ok) throw new Error(sumData.error || 'Failed to generate summary');
 
-
-
                 statusDiv.style.display = 'none';
-
-               
-
+                
                 summaryOutput.innerHTML = marked.parse(sumData.summary);
-
                 resultPanel.style.display = 'block';
 
-
-
             } catch (err) {
-
                 statusDiv.style.color = '#f43f5e';
-
                 statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error: ' + err.message;
-
             }
-
         }
-
-
 
         function copySummaryText() {
-
             const textToCopy = document.getElementById('summaryOutput').innerText;
-
             navigator.clipboard.writeText(textToCopy).then(() => {
-
                 alert('Summary copied successfully to clipboard!');
-
             });
-
         }
-
     </script>
-
 </body>
-
 </html>
