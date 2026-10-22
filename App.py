@@ -1,4 +1,4 @@
-import os
+ import os
 import time
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
@@ -69,7 +69,7 @@ def summarize_pdf():
   )
 
   # Using gemini-1.5-flash as officially required by Google API
- model_name = 'gemini-1.5-flash'
+  model_name = 'gemini-1.5-flash'
   summary_text = None
   last_error = None
 
