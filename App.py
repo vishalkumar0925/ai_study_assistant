@@ -69,7 +69,7 @@ def summarize_pdf():
   )
 
   # Using gemini-1.5-flash as officially required by Google API
-  model_name = 'gemini-1.5-flash'
+ model_name = 'gemini-1.5-flash'
   summary_text = None
   last_error = None
 
