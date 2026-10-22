@@ -68,8 +68,8 @@ def summarize_pdf():
       f' topics for exam preparation:\n\n{sample_text}'
   )
 
-  # Using gemini-3.8-flash as officially required by Google API
-  model_name = 'gemini-3.8-flash'
+  # Using gemini-1.5-flash as officially required by Google API
+  model_name = 'gemini-1.5-flash'
   summary_text = None
   last_error = None
 
